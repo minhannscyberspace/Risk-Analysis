@@ -28,7 +28,7 @@ function App() {
     <BrowserRouter>
       <main className="layout">
         <header>
-          <h1>Risk-Analysis MVP</h1>
+          <h1>Portfolio Risk Analysis</h1>
           <nav className="nav">
             <Link to="/">Upload</Link>
             <Link to="/dashboard">Dashboard</Link>
