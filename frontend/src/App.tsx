@@ -14,10 +14,13 @@ function App() {
     analysisId: "",
     scenarioId: "",
     reportId: "",
+    confidenceLevel: 0.95,
+    weightsInput: "",
     pca: null,
     risk: null,
     metrics: null,
     scenarios: null,
+    summary: null,
     report: null,
   });
 

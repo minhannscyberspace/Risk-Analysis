@@ -3,11 +3,14 @@ export type AppState = {
   analysisId: string;
   scenarioId: string;
   reportId: string;
+  confidenceLevel: number;
+  weightsInput: string;
   pca: { explained_variance_ratio: number[] } | null;
-  risk: Record<string, number> | null;
-  metrics: Record<string, number> | null;
+  risk: Record<string, unknown> | null;
+  metrics: Record<string, unknown> | null;
   scenarios: Record<string, Record<string, number>> | null;
-  report: { highlights?: string[] } | null;
+  summary: Record<string, unknown> | null;
+  report: { highlights?: string[]; interpretation?: Record<string, string> } | null;
 };
 
 export type UploadResponse = { dataset_id: string; rows: number; columns: string[] };

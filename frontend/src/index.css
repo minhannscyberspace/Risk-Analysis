@@ -100,3 +100,25 @@ pre {
   background: #4f46e5;
   height: 100%;
 }
+
+.section {
+  margin-top: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.table th,
+.table td {
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.table th {
+  background: #f1f5f9;
+}

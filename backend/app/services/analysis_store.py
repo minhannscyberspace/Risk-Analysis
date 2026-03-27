@@ -98,10 +98,10 @@ class SQLiteAnalysisStore:
     def save_analysis(
         self,
         dataset_id: str,
-        summary: dict[str, float],
+        summary: dict[str, Any],
         pca: dict[str, Any],
-        risk: dict[str, float],
-        metrics: dict[str, float],
+        risk: dict[str, Any],
+        metrics: dict[str, Any],
     ) -> str:
         analysis_id = str(uuid4())
         with self._connect() as conn:

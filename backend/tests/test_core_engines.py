@@ -25,9 +25,13 @@ def test_pca_output_shape() -> None:
 def test_risk_and_metrics_outputs() -> None:
     portfolio_returns = _sample_returns().mean(axis=1)
     risk = compute_risk_metrics(portfolio_returns, confidence_level=0.95)
-    metrics = compute_performance_metrics(portfolio_returns)
+    metrics = compute_performance_metrics(portfolio_returns, benchmark_returns=_sample_returns()["asset_a"])
 
     assert risk["cvar"] <= risk["historical_var"]
     assert 0 <= risk["breach_frequency"] <= 1
     assert "sharpe" in metrics
     assert "max_drawdown" in metrics
+    assert "annualized_return" in metrics
+    assert "actual_breach_rate" in risk
+    assert "benchmark_annualized_return" in metrics
+    assert "benchmark_annualized_volatility" in metrics

@@ -45,6 +45,9 @@ export default function ReportPage({
           <li key={item}>{item}</li>
         ))}
       </ul>
+      <p>{state.report?.interpretation?.risk_driver_hint ?? ""}</p>
+      <p>{state.report?.interpretation?.tail_risk_hint ?? ""}</p>
+      <p>{state.report?.interpretation?.period_hint ?? ""}</p>
     </section>
   );
 }

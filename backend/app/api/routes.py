@@ -45,9 +45,15 @@ async def upload_file(file: UploadFile = File(...)) -> UploadResponse:
 @router.post("/analysis/run", response_model=AnalysisRunResponse)
 def run_analysis(request: AnalysisRunRequest) -> AnalysisRunResponse:
     try:
-        analysis_id = run_initial_analysis(request.dataset_id, confidence_level=request.confidence_level)
+        analysis_id = run_initial_analysis(
+            request.dataset_id,
+            confidence_level=request.confidence_level,
+            weights=request.weights,
+        )
     except KeyError as exc:
         raise HTTPException(status_code=404, detail="dataset not found") from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
 
     return AnalysisRunResponse(analysis_id=analysis_id, status="completed")
 
@@ -72,7 +78,7 @@ def get_analysis_pca(analysis_id: str) -> dict[str, object]:
 
 
 @router.get("/analysis/{analysis_id}/risk")
-def get_analysis_risk(analysis_id: str) -> dict[str, float]:
+def get_analysis_risk(analysis_id: str) -> dict[str, object]:
     try:
         payload = store.get_analysis(analysis_id)
     except KeyError as exc:
@@ -81,7 +87,7 @@ def get_analysis_risk(analysis_id: str) -> dict[str, float]:
 
 
 @router.get("/analysis/{analysis_id}/metrics")
-def get_analysis_metrics(analysis_id: str) -> dict[str, float]:
+def get_analysis_metrics(analysis_id: str) -> dict[str, object]:
     try:
         payload = store.get_analysis(analysis_id)
     except KeyError as exc:
@@ -97,8 +103,12 @@ def run_scenarios(request: ScenarioRunRequest) -> ScenarioRunResponse:
     except KeyError as exc:
         raise HTTPException(status_code=404, detail="analysis not found") from exc
 
-    portfolio_returns = dataset.mean(axis=1)
-    scenarios = compute_scenarios(portfolio_returns)
+    weights = analysis["summary"].get("weights", {})
+    if isinstance(weights, dict) and weights:
+        weight_vector = [float(weights[col]) for col in dataset.columns]
+    else:
+        weight_vector = [1.0 / dataset.shape[1]] * dataset.shape[1]
+    scenarios = compute_scenarios(dataset, weight_vector)
     scenario_id = store.save_scenario_run(request.analysis_id, scenarios)
     return ScenarioRunResponse(scenario_id=scenario_id, status="completed")
 

@@ -30,7 +30,7 @@ def test_upload_run_and_fetch_analysis_flow() -> None:
     get_body = get_response.json()
     assert get_body["status"] == "completed"
     assert get_body["dataset_id"] == upload_body["dataset_id"]
-    assert "mean_return" in get_body["summary"]
+    assert "mean_return_annualized" in get_body["summary"]
 
     pca_response = client.get(f"/api/analysis/{run_body['analysis_id']}/pca")
     assert pca_response.status_code == 200
@@ -52,7 +52,7 @@ def test_upload_run_and_fetch_analysis_flow() -> None:
 
     scenario_get_response = client.get(f"/api/scenarios/{scenario_id}")
     assert scenario_get_response.status_code == 200
-    assert "historical_crisis" in scenario_get_response.json()["scenarios"]
+    assert "historical_worst_day_week_replay" in scenario_get_response.json()["scenarios"]
 
     report_gen_response = client.post(
         "/api/reports/generate", json={"analysis_id": run_body["analysis_id"]}

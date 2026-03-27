@@ -10,6 +10,7 @@ class UploadResponse(BaseModel):
 class AnalysisRunRequest(BaseModel):
     dataset_id: str = Field(min_length=1)
     confidence_level: float = Field(default=0.95, gt=0.5, lt=0.999)
+    weights: list[float] = Field(default_factory=list)
 
 
 class AnalysisRunResponse(BaseModel):
@@ -21,7 +22,7 @@ class AnalysisSummaryResponse(BaseModel):
     analysis_id: str
     dataset_id: str
     status: str
-    summary: dict[str, float]
+    summary: dict[str, object]
 
 
 class ScenarioRunRequest(BaseModel):
