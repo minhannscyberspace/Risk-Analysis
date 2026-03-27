@@ -1,0 +1,23 @@
+Quickstart: Build sample returns CSV from public ETF price CSVs
+
+1) Download CSVs from Yahoo Finance (Historical Data):
+   - SPY
+   - QQQ
+   - TLT
+   - GLD
+
+2) Save them under a local folder, e.g.:
+   data/SPY.csv
+   data/QQQ.csv
+   data/TLT.csv
+   data/GLD.csv
+
+3) Run:
+   python tools/prepare_returns_csv.py \
+     --input data/SPY.csv --input data/QQQ.csv --input data/TLT.csv --input data/GLD.csv \
+     --ticker SPY --ticker QQQ --ticker TLT --ticker GLD \
+     --date-column Date --price-column Adj Close \
+     --output backend/data/sample_returns_public.csv
+
+4) Upload output file in app:
+   backend/data/sample_returns_public.csv
